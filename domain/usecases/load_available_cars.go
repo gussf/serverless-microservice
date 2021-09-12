@@ -37,5 +37,4 @@ func GetAvailableCarsFrom(cars []i.CarDAO) []i.CarDAO {
 		}
 	}
 	return availableCars
-
 }

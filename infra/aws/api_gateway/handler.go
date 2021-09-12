@@ -8,6 +8,10 @@ import (
 	"github.com/gussf/serverless-microservice/infra/aws/lambdas"
 )
 
+func Run() {
+	lambda.Start(Handler)
+}
+
 func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 
 	if req.Path == "/cars/available" && req.HTTPMethod == http.MethodGet {
@@ -17,8 +21,4 @@ func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse,
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusNotFound,
 	}, nil
-}
-
-func Run() {
-	lambda.Start(Handler)
 }
