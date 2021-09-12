@@ -21,7 +21,7 @@ func TestCar_Available(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.car.isAvailable(); got != tt.want {
+			if got := tt.car.IsAvailable(); got != tt.want {
 				t.Errorf("Car.Available() = %v, want %v", got, tt.want)
 			}
 		})

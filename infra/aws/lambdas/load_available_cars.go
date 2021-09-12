@@ -15,8 +15,9 @@ func LoadAvailableCarsHandler(request events.APIGatewayProxyRequest) (events.API
 	// temporary
 	stubCar := i.NewCarDAO("Corsa", "Chevrolet", 1500000, true)
 	stubCar_2 := i.NewCarDAO("Uno", "Fiat", 8000000, true)
+	stubCarList := []i.CarDAO{stubCar, stubCar_2}
 
-	repo := db.StubRepository{CarList: []i.CarDAO{stubCar, stubCar_2}}
+	repo := db.StubRepository{CarList: stubCarList}
 	svc := usecases.NewLoadAvailableCarsService(repo)
 	cars, err := svc.List()
 

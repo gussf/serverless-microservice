@@ -13,6 +13,6 @@ func NewCar(name string, brand string, price_cents float64, available bool) Car 
 	}
 }
 
-func (c Car) isAvailable() bool {
+func (c Car) IsAvailable() bool {
 	return c.available
 }

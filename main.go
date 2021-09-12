@@ -2,25 +2,11 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 
-	"github.com/aws/aws-lambda-go/events"
-	"github.com/aws/aws-lambda-go/lambda"
-	l "github.com/gussf/serverless-microservice/infra/aws/lambdas"
+	"github.com/gussf/serverless-microservice/infra/aws/api_gateway"
 )
-
-func handlers(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-
-	if req.Path == "/cars/available" && req.HTTPMethod == http.MethodGet {
-		return l.LoadAvailableCarsHandler(req)
-	}
-
-	return events.APIGatewayProxyResponse{
-		StatusCode: http.StatusNotFound,
-	}, nil
-}
 
 func main() {
 	fmt.Println("MAIN")
-	lambda.Start(handlers)
+	api_gateway.Run()
 }

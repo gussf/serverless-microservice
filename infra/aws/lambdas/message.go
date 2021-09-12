@@ -20,9 +20,5 @@ func FormatAPIGatewayResponse(v interface{}, httpCode int) events.APIGatewayProx
 
 func FormatErrorMessageToAPIGatewayResponse(err error, httpCode int) events.APIGatewayProxyResponse {
 	errMsg := ErrorMessage{Message: err.Error()}
-	jsonMsg, _ := json.Marshal(errMsg)
-	return events.APIGatewayProxyResponse{
-		Body:       string(jsonMsg),
-		StatusCode: httpCode,
-	}
+	return FormatAPIGatewayResponse(errMsg, httpCode)
 }
