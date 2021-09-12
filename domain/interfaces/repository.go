@@ -1,20 +1,20 @@
 package interfaces
 
 type CarDAO struct {
-	name      string
-	brand     string
-	price     float64
-	available bool
+	Name      string
+	Brand     string
+	Price     int64
+	Available bool
 }
 
-func NewCarDAO(name string, brand string, price float64, available bool) CarDAO {
+func NewCarDAO(name string, brand string, price int64, available bool) CarDAO {
 	return CarDAO{
 		name, brand, price, available,
 	}
 }
 
-func (c CarDAO) Available() bool {
-	return c.available
+func (c CarDAO) IsAvailable() bool {
+	return c.Available
 }
 
 type Repository interface {

@@ -11,7 +11,7 @@ import (
 
 func handlers(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 
-	if req.Path == "/cars/available" {
+	if req.Path == "/cars/available" && req.HTTPMethod == http.MethodGet {
 		return l.LoadAvailableCarsHandler(req)
 	}
 

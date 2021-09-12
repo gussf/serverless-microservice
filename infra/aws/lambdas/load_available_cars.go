@@ -1,7 +1,7 @@
 package lambdas
 
 import (
-	"fmt"
+	"encoding/json"
 
 	"github.com/aws/aws-lambda-go/events"
 	e "github.com/gussf/serverless-microservice/domain/errors"
@@ -12,25 +12,29 @@ import (
 
 func LoadAvailableCarsHandler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 
-	stubCar := i.NewCarDAO("Corsa", "Chevrolet", 1500000, false)
-	repo := db.StubRepository{CarList: []i.CarDAO{stubCar}}
+	// temporary
+	stubCar := i.NewCarDAO("Corsa", "Chevrolet", 1500000, true)
+	stubCar_2 := i.NewCarDAO("Uno", "Fiat", 8000000, true)
+
+	repo := db.StubRepository{CarList: []i.CarDAO{stubCar, stubCar_2}}
 	svc := usecases.NewLoadAvailableCarsService(repo)
 	cars, err := svc.List()
 
 	if err == e.ErrNoCarsAvailable {
-		// return events.APIGatewayProxyResponse{
-		// 	Body:       fmt.Sprintf("%v", ErrorMessage{Message: err.Error()}),
-		// 	StatusCode: 200,
-		// }, nil
-		return events.APIGatewayProxyResponse{StatusCode: 200}, err
+		msg, _ := json.Marshal(ErrorMessage{Message: err.Error()})
+		return events.APIGatewayProxyResponse{
+			Body:       string(msg),
+			StatusCode: 200,
+		}, nil
 	}
 
 	if err != nil {
 		return events.APIGatewayProxyResponse{StatusCode: 500}, err
 	}
 
+	msg, err := json.Marshal(cars)
 	return events.APIGatewayProxyResponse{
-		Body:       fmt.Sprintf("%v", cars),
+		Body:       string(msg),
 		StatusCode: 200,
 	}, nil
 }

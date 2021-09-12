@@ -32,7 +32,7 @@ func (s LoadAvailableCarsService) List() ([]i.CarDAO, error) {
 func GetAvailableCarsFrom(cars []i.CarDAO) []i.CarDAO {
 	var availableCars []i.CarDAO
 	for _, c := range cars {
-		if c.Available() {
+		if c.IsAvailable() {
 			availableCars = append(availableCars, c)
 		}
 	}
