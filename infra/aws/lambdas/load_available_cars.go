@@ -1,7 +1,7 @@
 package lambdas
 
 import (
-	"encoding/json"
+	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
 	e "github.com/gussf/serverless-microservice/domain/errors"
@@ -21,20 +21,12 @@ func LoadAvailableCarsHandler(request events.APIGatewayProxyRequest) (events.API
 	cars, err := svc.List()
 
 	if err == e.ErrNoCarsAvailable {
-		msg, _ := json.Marshal(ErrorMessage{Message: err.Error()})
-		return events.APIGatewayProxyResponse{
-			Body:       string(msg),
-			StatusCode: 200,
-		}, nil
+		return FormatErrorMessageToAPIGatewayResponse(err, http.StatusOK), nil
 	}
 
 	if err != nil {
-		return events.APIGatewayProxyResponse{StatusCode: 500}, err
+		return FormatErrorMessageToAPIGatewayResponse(err, http.StatusInternalServerError), nil
 	}
 
-	msg, err := json.Marshal(cars)
-	return events.APIGatewayProxyResponse{
-		Body:       string(msg),
-		StatusCode: 200,
-	}, nil
+	return FormatAPIGatewayResponse(cars, http.StatusOK), nil
 }
