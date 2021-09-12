@@ -20,9 +20,22 @@ func (s LoadAvailableCarsService) List() ([]i.CarDAO, error) {
 		return nil, errors.ErrFetchingAvailableCars
 	}
 
-	if len(cars) == 0 {
+	availableCars := GetAvailableCarsFrom(cars)
+
+	if len(availableCars) == 0 {
 		return nil, errors.ErrNoCarsAvailable
 	}
 
-	return cars, nil
+	return availableCars, nil
+}
+
+func GetAvailableCarsFrom(cars []i.CarDAO) []i.CarDAO {
+	var availableCars []i.CarDAO
+	for _, c := range cars {
+		if c.Available() {
+			availableCars = append(availableCars, c)
+		}
+	}
+	return availableCars
+
 }
