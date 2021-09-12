@@ -2,6 +2,16 @@ package models
 
 import "testing"
 
+func TestCar_Creation(t *testing.T) {
+	expected := Car{name: "Name", brand: "Brand", price_cents: 1, available: true}
+
+	actual := NewCar(expected.name, expected.brand, expected.price_cents, expected.available)
+
+	if actual != expected {
+		t.Errorf("Car.NewCar() - expected: %v, want %v", expected, actual)
+	}
+}
+
 func TestCar_Available(t *testing.T) {
 	tests := []struct {
 		name string
