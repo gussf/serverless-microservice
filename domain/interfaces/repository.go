@@ -19,4 +19,5 @@ func (c CarDAO) IsAvailable() bool {
 
 type Repository interface {
 	ListCars() ([]CarDAO, error)
+	InsertCar(CarDAO) error
 }
